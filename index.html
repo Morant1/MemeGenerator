@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Memes</title>
+</head>
+
+<body onload="onInit()">
+    <div class="navbar">
+        <div class="logo">Logo</div>
+        <div class="sub-navbar">
+            <a href="#" onclick="openGallery()">Gallery</a>
+            <a href="#">Memes</a>
+            <a href="#">About</a>
+        </div>
+    </div>
+    <div class="modal-meme">
+        <div class="control-boxes">
+            <div class="input">
+                <input class="text-input" type="text" placeholder="Insert your text" onclick="loadImg()">
+            </div>
+            <div class="edit-memes-container memes-links_1">
+                <a onclick="onSwitchLines()"><img src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
+                <a onclick="onAddText()"><img src="DESIGN/Meme1 - Sergei/ICONS/add.png"></a>
+                <a onclick="onDeleteText()"><img src="DESIGN/Meme1 - Sergei/ICONS/trash.png"></a>
+                <a></a>
+            </div>
+            <div class="edit-memes-container memes-links_2">
+                <a onclick="onIncreaseFont()"><img src="DESIGN/Meme1 - Sergei/ICONS/increase font - icon.png"></a>
+                <a onclick="onDecreaseFont()"><img src="DESIGN/Meme1 - Sergei/ICONS/decrease font - icon.png"></a>
+                <a onclick="onTextalign('right')"><img src="DESIGN/Meme1 - Sergei/ICONS/align-to-right.png"></a>
+                <a onclick="onTextalign('center')"><img src="DESIGN/Meme1 - Sergei/ICONS/center-text-alignment.png"></a>
+                <a onclick="onTextalign('left')"><img src="DESIGN/Meme1 - Sergei/ICONS/align-to-left.png"></a>
+                <a onclick="onChangeTextColor()"><img src="DESIGN/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></a>
+                <a></a>
+            </div>
+            <div class="edit-memes-container download-share">
+                <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
+                <a href="#" onclick="uploadImg()">SHARE</a>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="myCanvas" height="450" width="450" onclick="clickCanvas(event)"></canvas>
+        </div>
+    </div>
+
+    <div class="grid-image-container">
+    </div>
+
+
+    <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/service.js"></script>
+    <script src="js/controller.js"></script>
+</body>
+
+</html>

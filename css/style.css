@@ -1,0 +1,133 @@
+/* BASIC */
+html {
+    font-size: 16px;
+    font-family: Lato400,sans-serif;
+}
+
+body {
+    margin: 0 auto;
+    height:100vh;
+   
+ 
+}
+
+a {
+    margin:3px;
+}
+
+
+/* CLASSES */
+
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 8%;
+    background-color: rgba(128, 128, 128, 0.267);
+    box-shadow: 7px -3px 8px 1px black;
+    margin-block-end: 1rem ;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.logo {
+    font-family: Lato700,sans-serif;
+    font-size: 1.5em;
+}
+
+.sub-navbar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sub-navbar > * {
+    margin: 1rem;
+}
+
+.grid-image-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    grid-auto-rows: 150px;
+    gap: 5px;
+    margin-inline-end: 4%;
+    margin-inline-start: 4%;
+
+}
+.img img{
+    height:100%;
+    width:100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+/* MODAL */
+
+.modal-meme{
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: rgb(184 177 177);
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 8%;
+    height: 100vh;
+    visibility: hidden;
+}
+
+.control-boxes {
+    display: flex;
+    background-color: #00000029;
+    border-radius: 1em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    width: 40%;
+    box-shadow: 1px 1px 9px black;
+}
+.edit-memes-container{
+    margin-block-end: 2em;
+}
+.edit-memes-container a img {
+    border: black 1px solid;
+    border-radius: 0.3em;
+    width:25px;
+    height:25px;
+    padding:2px;
+}
+.input {
+    margin-block-end: 2em;
+}
+.text-input {
+    border-radius: 0.5em;
+    outline: none;
+    line-height: 2em;
+}
+/* CANVAS */
+
+#myCanvas {
+    border: 1px black solid;
+}
+
+
+
+
+
+
+
+
+/* FONTS */
+
+
+@font-face {
+    font-family: Lato400;
+    src: url(../fonts/Lato-Regular.ttf)
+}
+
+@font-face {
+    font-family: Lato700;
+    src: url(../fonts/Lato-Bold.ttf);
+}
