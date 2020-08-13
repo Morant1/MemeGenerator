@@ -9,21 +9,49 @@
 </head>
 
 <body onload="onInit()">
-    <div class="navbar">
+    <header class="navbar">
         <div class="logo">Logo</div>
+        <div onclick="onHamburger()"class="hamburger">&#9776;</div>
         <div class="sub-navbar">
-            <a href="#" onclick="openGallery()">Gallery</a>
-            <a href="#">Memes</a>
-            <a href="#">About</a>
+            <a href="#" onclick="closeModal()">Gallery</a>
+            <a href="#" onclick="openModalMemes()">Memes</a>
+            <!-- <a href="#">About</a> -->
         </div>
+    </header>
+    <div class="saved-memes-container">
+        <div class="saved-memes-flex"></div>
+        <div class="close" onclick="onCloseSavedMeme()">X</div>
     </div>
-    <div class="modal-meme">
+    <section class="search-features">
+        <div class="search-container">
+            <!-- <input class="search-input" type="text" placeholder="Search"> -->
+            <form>
+                <!-- <input onchange="onSearch()" placeholder="Search" class="search-input" type="text" list="filters"> -->
+              
+                <select id="filters" onchange="onSearch()" class="search-input">
+                    <option value="all">ALL</option>
+                  <option value="dogs">DOGS</option>
+                  <option value="cats">CATS</option>
+                     <option value="men">MEN</option>
+                  <option value="babies">BABIES</option>
+                  <option value="president">PRESIDENT</option>
+                </select>
+              </form>
+              
+            <!-- <a onclick="onSearch()"><img src="DESIGN/Meme1 - Sergei/ICONS/search-icon.png"></a> -->
+        </div>
+    </section>
+    <section class="modal-meme">
+        <div class="close-modal" onclick="closeModal()">X</div>
         <div class="control-boxes">
             <div class="input">
-                <input class="text-input" type="text" placeholder="Insert your text" onclick="loadImg()">
+                <input class="text-input" type="text" placeholder="Insert your text" onchange="loadImg()">
             </div>
             <div class="edit-memes-container memes-links_1">
-                <a onclick="onSwitchLines()"><img src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
+                <a onclick="onClickup()"><img src="DESIGN/Meme1 - Sergei/ICONS/arrow-up-outline.svg"></a>
+                <a onclick="onClickDown()"><img src="DESIGN/Meme1 - Sergei/ICONS/arrow-down-outline.svg"></a>
+                <a onclick="onSwitchLines()"><img
+                        src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
                 <a onclick="onAddText()"><img src="DESIGN/Meme1 - Sergei/ICONS/add.png"></a>
                 <a onclick="onDeleteText()"><img src="DESIGN/Meme1 - Sergei/ICONS/trash.png"></a>
                 <a></a>
@@ -35,21 +63,32 @@
                 <a onclick="onTextalign('center')"><img src="DESIGN/Meme1 - Sergei/ICONS/center-text-alignment.png"></a>
                 <a onclick="onTextalign('left')"><img src="DESIGN/Meme1 - Sergei/ICONS/align-to-left.png"></a>
                 <a onclick="onChangeTextColor()"><img src="DESIGN/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></a>
-                <a></a>
+
+            </div>
+            <div class="edit-memes-container sticker">
+                <a ondragstart="onDragSticker(1)"><img src="stickers/sticker1.jpg"></a>
+                <a ondragstart="onDragSticker(2)"><img src="stickers/sticker2.jpg"></a>
+                <a ondragstart="onDragSticker(3)"><img src="stickers/sticker3.jpg"></a>
+
             </div>
             <div class="edit-memes-container download-share">
-                <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
-                <a href="#" onclick="uploadImg()">SHARE</a>
+                <a href="#" onclick="downloadCanvas(this)" download="">DOWNLOAD</a>
+                <a href="#" class="share-img" onmouseover="uploadImg()">SHARE</a>
+                <a href="#" class="save-img" onclick="onSaveToStorage()">SAVE</a>
             </div>
         </div>
 
         <div class="canvas-container">
-            <canvas id="myCanvas" height="450" width="450" onclick="clickCanvas(event)"></canvas>
+            <canvas id="myCanvas" height="450" width="450" ondragover="event.preventDefault();"
+                ondrop="onDropSticker(event)">
+            </canvas>
         </div>
+    </section>
+    <div class="hide-grid">
+        <main class="grid-image-container">
+        </main>
     </div>
 
-    <div class="grid-image-container">
-    </div>
 
 
     <script src="js/utils.js"></script>
