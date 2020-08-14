@@ -240,7 +240,7 @@ a {
 .modal-meme{
     display: flex;
     flex-direction: row-reverse;
-    background-image: url('/stickers/background.jpg');
+    background-image: url('background.jpg');
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
