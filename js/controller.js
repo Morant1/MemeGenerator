@@ -3,11 +3,12 @@ var gCanvas;
 var gIsModalOpen = false;
 var gCtx;
 var gCurrId;
-var gCountInput;
 var gStickerNum;
-const KEY = 'memes'
+const KEY = 'memes';
+var gTouchstart = false;
+var gImgData;
+var gSavedMemes = [];
 
-var gSavedCanvasAsImg;
 
 
 function onInit() {
@@ -17,15 +18,13 @@ function onInit() {
 
 function renderImgs() {
     var imgs = createImgs();
-
     var strHtmls = imgs.map(function (img) {
         return `
      <div class="img img-${img.id}" onclick="onImgClicked(${img.id})"><img src="${img.url}"></div>
         `
     });
 
-    document.querySelector('.grid-image-container').innerHTML = strHtmls.join('')
-
+    document.querySelector('.grid-image-container').innerHTML = strHtmls.join('');
 }
 
 
@@ -39,35 +38,37 @@ function onImgClicked(id) {
 
 function openMemeModal() {
     document.querySelector('.modal-meme').style.visibility = 'visible';
-    gIsModalOpen= true;
+    gIsModalOpen = true;
     document.querySelector('.hide-grid').style.display = 'none';
     gCanvas = document.getElementById('myCanvas');
     gCtx = gCanvas.getContext('2d');
     loadImg();
     resizeCanvas()
-   
+
 
 }
 
 
 function onSaveToStorage() {
-    saveToStorage(KEY, gCanvas.toDataURL());
+    gSavedMemes.push(gCanvas.toDataURL())
+    saveToStorage(KEY, gSavedMemes);
 
 }
 
 function loadImg() {
     if (gIsModalOpen) {
-    // 
-    var meme = getMeme();
-    setMimeCoorX(gCanvas.width)
-    // 
-    const img = new Image();
-    img.src = `square-imgs/${gCurrId}.jpg`;
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
-        drawText();
+        var meme = getMeme();
+        setMemeCoorX(gCanvas.width)
+        const img = new Image();
+        img.src = `square-imgs/${gCurrId}.jpg`;
+        img.onload = () => {
+            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+            if (gImgData) {
+                gCtx.putImageData(gImgData, 0, 0);
+            }
+            drawText();
+        }
     }
-}
 }
 
 function drawText() {
@@ -76,8 +77,8 @@ function drawText() {
         var text = document.querySelector('.text-input').value;
         if (!text) return;
         setMemeText(text);
-
     }
+
     for (var i = 0; i < meme.lines.length; i++) {
         gCtx.lineWidth = '2';
         gCtx.strokeStyle = 'black';
@@ -91,55 +92,69 @@ function drawText() {
 }
 
 
+
+
+// Sticker
+
+function onDragSticker(ev,num) {
+    if (ev.type === 'touchstart') ev.preventDefault();
+    gTouchstart = true;
+    gStickerNum = num;
+}
+
+function onDropSticker(ev) {
+    if (gTouchstart) {
+        var offsetX, offsetY;
+        if (ev.type === "touchstart") {
+            offsetX = ev.touches[0].clientX - 100;
+            offsetY = ev.touches[0].clientY - 100;
+
+        } else {
+            offsetX = ev.offsetX;
+            offsetY = ev.offsetY;
+        }
+        const sticker = new Image();
+        sticker.src = `./stickers/sticker${gStickerNum}.jpg`;
+        sticker.onload = () => {
+            var w = (sticker.width) * 4.5;
+            var h = (sticker.height) * 4.5;
+            gCtx.drawImage(sticker, 0, 0, w, h, offsetX, offsetY, gCanvas.width, gCanvas.height);
+            gImgData = gCtx.getImageData(0, 0, w, h, offsetX, offsetY, gCanvas.width, gCanvas.height);
+        }
+        gTouchstart = false;
+    }
+
+}
+
 // CONTROL CANVAS BOX
 
-function onDragSticker(num){
-    gStickerNum = num; 
-}
-
-function onDropSticker(ev){
-    const img = new Image();
-    img.src = `./stickers/sticker${gStickerNum}.jpg`;
-    img.onload = () => { 
-
-     var w=(img.width)*4.5;
-     var h=(img.height)*4.5;
-
-    gCtx.drawImage(img, 0, 0, w,h,ev.offsetX, ev.offsetY, gCanvas.width, gCanvas.height);
-    }
-    
-
-  
-}
-
-function onClickup(){
+function onClickup() {
     changeTextPos(false);
     loadImg();
 }
 
-function onClickDown(){
+function onClickDown() {
     changeTextPos(true);
     loadImg();
 }
 
-    
 
 
 function onSwitchLines() {
-   
+
     var meme = getMeme();
     getCurrIdx()
     var coordX = meme.lines[meme.selectedLineIdx].x;
     var coordY = meme.lines[meme.selectedLineIdx].y;
 
-        gCtx.beginPath();
-        gCtx.moveTo(coordX-10, coordY+10);
-        gCtx.lineTo(coordX+100,coordY+10);
-        gCtx.strokeStyle = 'yellow';
-        gCtx.lineWidth = 6;
-        gCtx.stroke();
+    gCtx.beginPath();
+    gCtx.moveTo(coordX - 200, coordY + 10);
+    gCtx.lineTo(coordX + 200, coordY + 10);
+    gCtx.strokeStyle = 'yellow';
+    gCtx.lineWidth = 3;
+    gCtx.stroke();
     console.log(meme.selectedLineIdx)
-    setTimeout(loadImg,500);
+    setTimeout(loadImg, 500);
 
 }
 
@@ -151,7 +166,7 @@ function onSearch() {
 function onAddText() {
     var widthCanvas = gCanvas.width;
     var heightCanvas = gCanvas.height;
-    setMineLine(widthCanvas,heightCanvas);
+    setMineLine(widthCanvas, heightCanvas);
     drawText();
 
 }
@@ -207,7 +222,9 @@ function closeModal() {
     document.querySelector('.hide-grid').style.display = 'block';
     document.querySelector('.modal-meme').style.visibility = 'hidden';
     document.querySelector('.sub-navbar').classList.remove('open-hamb');
-    gIsModalOpen= false;
+    gIsModalOpen = false;
+    gImgData = null;
+
 
     resetLines();
     document.querySelector('.text-input').value = '';
@@ -223,13 +240,11 @@ function onHamburger() {
 
 function uploadImg(elForm, ev) {
     document.getElementById('myCanvas').value = gCanvas.toDataURL("image/jpeg");
-
-    // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
         uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        document.querySelector('.share-img').href = 
-        `https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">` 
-  
+        document.querySelector('.share-img').href =
+            `https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">`
+
     }
 
     doUploadImg(elForm, onSuccess);
@@ -241,13 +256,13 @@ function doUploadImg(elForm, onSuccess) {
         method: 'POST',
         body: formData
     })
-    .then(function (res) {
-        return res.text()
-    })
-    .then(onSuccess)
-    .catch(function (err) {
-        console.error(err)
-    })
+        .then(function (res) {
+            return res.text()
+        })
+        .then(onSuccess)
+        .catch(function (err) {
+            console.error(err)
+        })
 }
 
 // RESIZE
@@ -256,28 +271,33 @@ function resizeCanvas() {
     if (gIsModalOpen) {
         const elContainer = document.querySelector('.control-boxes');
 
-    
-        gCanvas.width = elContainer.offsetWidth+20;
-        gCanvas.height = elContainer.offsetHeight+20; 
-    
-    
-        console.log(gCanvas.width,gCanvas.height)
+
+        gCanvas.width = elContainer.offsetWidth + 35;
+        gCanvas.height = elContainer.offsetHeight + 40;
+
+
+        console.log(gCanvas.width, gCanvas.height)
     }
 }
 
-window.addEventListener('resize', function(){
-        // gCanvas.width = window.innerWidth;
-        // gCanvas.height = window.innerHeight;
-        resizeCanvas()
-        loadImg()
+window.addEventListener('resize', function () {
+    resizeCanvas()
+    loadImg()
 })
 
 // SAVED MEMES
 function renderSavedMeme() {
-    var savedMeme = loadFromStorage(KEY)
-    document.querySelector('.saved-memes-flex').innerHTML = `
-    <img src="${savedMeme}">`;
-
+    var savedMemes = loadFromStorage(KEY)
+    var innerHtmls = '';
+    if (savedMemes && savedMemes.length !== 0) {
+        for (var i = 0; i < savedMemes.length; i++) {
+            innerHtmls += `<img src="${savedMemes[i]}">`;
+        }
+        document.querySelector('.saved-memes-flex').innerHTML = innerHtmls;
+    } else {
+        document.querySelector('.saved-memes-flex').innerHTML = `
+        <div style="color:white;">NO SAVED MEMES YET</div>`;
+    }
 }
 
 function openModalMemes() {

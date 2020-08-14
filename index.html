@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/style.css">
     <title>Memes</title>
 </head>
@@ -11,76 +11,86 @@
 <body onload="onInit()">
     <header class="navbar">
         <div class="logo">Logo</div>
-        <div onclick="onHamburger()"class="hamburger">&#9776;</div>
+        <div onclick="onHamburger()" class="hamburger">&#9776;</div>
         <div class="sub-navbar">
             <a href="#" onclick="closeModal()">Gallery</a>
             <a href="#" onclick="openModalMemes()">Memes</a>
-            <!-- <a href="#">About</a> -->
         </div>
     </header>
     <div class="saved-memes-container">
-        <div class="saved-memes-flex"></div>
         <div class="close" onclick="onCloseSavedMeme()">X</div>
+        <div class="saved-memes-flex"></div>
     </div>
     <section class="search-features">
         <div class="search-container">
-            <!-- <input class="search-input" type="text" placeholder="Search"> -->
-            <form>
-                <!-- <input onchange="onSearch()" placeholder="Search" class="search-input" type="text" list="filters"> -->
-              
+            <form>         
                 <select id="filters" onchange="onSearch()" class="search-input">
                     <option value="all">ALL</option>
-                  <option value="dogs">DOGS</option>
-                  <option value="cats">CATS</option>
-                     <option value="men">MEN</option>
-                  <option value="babies">BABIES</option>
-                  <option value="president">PRESIDENT</option>
+                    <option value="dogs">DOGS</option>
+                    <option value="cats">CATS</option>
+                    <option value="men">MEN</option>
+                    <option value="babies">BABIES</option>
+                    <option value="president">PRESIDENT</option>
                 </select>
-              </form>
-              
-            <!-- <a onclick="onSearch()"><img src="DESIGN/Meme1 - Sergei/ICONS/search-icon.png"></a> -->
+            </form>
         </div>
     </section>
     <section class="modal-meme">
-        <div class="close-modal" onclick="closeModal()">X</div>
+        <div class="close-modal" ontouchstart="closeModal()" onclick="closeModal()">X</div>
         <div class="control-boxes">
             <div class="input">
                 <input class="text-input" type="text" placeholder="Insert your text" onchange="loadImg()">
             </div>
-            <div class="edit-memes-container memes-links_1">
-                <a onclick="onClickup()"><img src="DESIGN/Meme1 - Sergei/ICONS/arrow-up-outline.svg"></a>
-                <a onclick="onClickDown()"><img src="DESIGN/Meme1 - Sergei/ICONS/arrow-down-outline.svg"></a>
-                <a onclick="onSwitchLines()"><img
-                        src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
-                <a onclick="onAddText()"><img src="DESIGN/Meme1 - Sergei/ICONS/add.png"></a>
-                <a onclick="onDeleteText()"><img src="DESIGN/Meme1 - Sergei/ICONS/trash.png"></a>
-                <a></a>
-            </div>
-            <div class="edit-memes-container memes-links_2">
-                <a onclick="onIncreaseFont()"><img src="DESIGN/Meme1 - Sergei/ICONS/increase font - icon.png"></a>
-                <a onclick="onDecreaseFont()"><img src="DESIGN/Meme1 - Sergei/ICONS/decrease font - icon.png"></a>
-                <a onclick="onTextalign('right')"><img src="DESIGN/Meme1 - Sergei/ICONS/align-to-right.png"></a>
-                <a onclick="onTextalign('center')"><img src="DESIGN/Meme1 - Sergei/ICONS/center-text-alignment.png"></a>
-                <a onclick="onTextalign('left')"><img src="DESIGN/Meme1 - Sergei/ICONS/align-to-left.png"></a>
-                <a onclick="onChangeTextColor()"><img src="DESIGN/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></a>
+            <div style="background-color: #f3eded33;border-radius: 1em;padding: 10px;">
+                <div class="edit-memes-container memes-links_1">
+                    <a onclick="onClickup()" ontouchstart="onClickup()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/arrow-up-outline.svg"></a>
+                    <a onclick="onClickDown()" ontouchstart="onClickDown()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/arrow-down-outline.svg"></a>
+                    <a onclick="onSwitchLines()" ontouchstart="onSwitchLines()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
+                    <a onclick="onAddText()" ontouchstart="onAddText()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/add.png"></a>
+                    <a onclick="onDeleteText()" ontouchstart="onDeleteText()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/trash.png"></a>
+                    <a></a>
+                </div>
+                <div class="edit-memes-container memes-links_2">
+                    <a onclick="onIncreaseFont()" ontouchstart="onIncreaseFont()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/increase font - icon.png"></a>
+                    <a onclick="onDecreaseFont()" ontouchstart="onDecreaseFont()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/decrease font - icon.png"></a>
+                    <a onclick="onTextalign('right')" ontouchstart="onTextalign('right')"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/align-to-right.png"></a>
+                    <a onclick="onTextalign('center')" ontouchstart="onTextalign('center')"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/center-text-alignment.png"></a>
+                    <a onclick="onTextalign('left')" ontouchstart="onTextalign('left')"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/align-to-left.png"></a>
+                    <a onclick="onChangeTextColor()" ontouchstart="onChangeTextColor()"><img
+                            src="DESIGN/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></a>
 
-            </div>
-            <div class="edit-memes-container sticker">
-                <a ondragstart="onDragSticker(1)"><img src="stickers/sticker1.jpg"></a>
-                <a ondragstart="onDragSticker(2)"><img src="stickers/sticker2.jpg"></a>
-                <a ondragstart="onDragSticker(3)"><img src="stickers/sticker3.jpg"></a>
+                </div>
+                <div style="font-family: Euro;color:white;text-align: center;">Put a sticker when you finish 😊</div>
+                <div class="edit-memes-container sticker">
+                    <a ontouchstart="onDragSticker(event,1)" ondragstart="onDragSticker(event,1)"><img
+                            src="stickers/sticker1.jpg"></a>
+                    <a ontouchstart="onDragSticker(event,2)" ondragstart="onDragSticker(event,2)"><img
+                            src="stickers/sticker2.jpg"></a>
+                    <a ontouchstart="onDragSticker(event,3)" ondragstart="onDragSticker(event,3)"><img
+                            src="stickers/sticker3.jpg"></a>
 
-            </div>
-            <div class="edit-memes-container download-share">
-                <a href="#" onclick="downloadCanvas(this)" download="">DOWNLOAD</a>
-                <a href="#" class="share-img" onmouseover="uploadImg()">SHARE</a>
-                <a href="#" class="save-img" onclick="onSaveToStorage()">SAVE</a>
+                </div>
+                <div class="edit-memes-container download-share">
+                    <a href="#" onclick="downloadCanvas(this)" download="">DOWNLOAD</a>
+                    <a href="#" class="share-img" ontouchstart="uploadImg()" onmouseover="uploadImg()">SHARE</a>
+                    <a href="#" class="save-img" ontouchstart="onSaveToStorage()" onclick="onSaveToStorage()">SAVE</a>
+                </div>
             </div>
         </div>
 
         <div class="canvas-container">
             <canvas id="myCanvas" height="450" width="450" ondragover="event.preventDefault();"
-                ondrop="onDropSticker(event)">
+                ontouchstart="onDropSticker(event)" ondrop="onDropSticker(event)">
             </canvas>
         </div>
     </section>

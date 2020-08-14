@@ -1,7 +1,6 @@
 'use strict';
 var gKeywords = { 'happy': 12, 'funny puk': 1 }
 const IMG_NUMBER = 18;
-// var X = 160;
 var X;
 var Y = 60;
 var gSortedImgs;
@@ -40,7 +39,6 @@ function setMineLine(width, height) {
 
 }
 
-
 function _createNewLine(width, height) {
     var newY;
     var newX = X;
@@ -74,12 +72,12 @@ function setMemeSize(desc = false) {
     else gMeme.lines[gMeme.selectedLineIdx].size -= FIXED_NUM;
 
 }
-// 
-function setMimeCoorX(coorx) {
+
+function setMemeCoorX(coorx) {
     X = coorx / 2;
     gMeme.lines[gMeme.selectedLineIdx].x = X;
 }
-// 
+
 function resetLines() {
     gMeme.lines =  [
         {
@@ -171,20 +169,4 @@ function getCurrIdx() {
 
 
 }
-
-// function getImgById(id) {
-//     var imgIdx = _getImgIndex(id);
-
-//     return gImgs[imgIdx];
-// }
-
-
-// function _getImgIndex(id) { 
-//     var imgIdx = gImgs.findIndex(function (img) {
-//         return id === img.id;
-//     })
-
-//     return imgIdx;
-
-// }
 
