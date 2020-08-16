@@ -10,7 +10,7 @@
 
 <body onload="onInit()">
     <header class="navbar">
-        <div class="logo">Logo</div>
+        <div class="logo"><img src="DESIGN/Meme2 - Game Style/LOGO.png"></div>
         <div onclick="onHamburger()" class="hamburger">&#9776;</div>
         <div class="sub-navbar">
             <a href="#" onclick="closeModal()">Gallery</a>
@@ -39,7 +39,7 @@
         <div class="close-modal" ontouchstart="closeModal()" onclick="closeModal()">X</div>
         <div class="control-boxes">
             <div class="input">
-                <input class="text-input" type="text" placeholder="Insert your text" onchange="loadImg()">
+                <input class="text-input" type="text" placeholder="Insert your text" oninput="loadImg()">
             </div>
             <div style="background-color: #f3eded33;border-radius: 1em;padding: 10px;">
                 <div class="edit-memes-container memes-links_1">
@@ -47,11 +47,11 @@
                             src="DESIGN/Meme1 - Sergei/ICONS/arrow-up-outline.svg"></a>
                     <a onclick="onClickDown()" ontouchstart="onClickDown()"><img
                             src="DESIGN/Meme1 - Sergei/ICONS/arrow-down-outline.svg"></a>
-                    <a onclick="onSwitchLines()" ontouchstart="onSwitchLines()"><img
+                    <a onclick="onSwitchLines()"><img
                             src="DESIGN/Meme1 - Sergei/ICONS/up-and-down-opposite-double-arrows-side-by-side.png"></a>
-                    <a onclick="onAddText()" ontouchstart="onAddText()"><img
+                    <a onclick="onAddText()"><img
                             src="DESIGN/Meme1 - Sergei/ICONS/add.png"></a>
-                    <a onclick="onDeleteText()" ontouchstart="onDeleteText()"><img
+                    <a onclick="onDeleteText()"><img
                             src="DESIGN/Meme1 - Sergei/ICONS/trash.png"></a>
                     <a></a>
                 </div>
@@ -70,24 +70,24 @@
                             src="DESIGN/Meme1 - Sergei/ICONS/paint-board-and-brush.png"></a>
 
                 </div>
-                <div style="font-family: Euro;color:white;text-align: center;">Put a sticker when you finish 😊</div>
                 <div class="edit-memes-container sticker">
-                    <a ontouchstart="onDragSticker(event,1)" ondragstart="onDragSticker(event,1)"><img
+                    <a onclick="onDragSticker(event,1)" ondragstart="onDragSticker(event,1)"><img
                             src="stickers/sticker1.jpg"></a>
-                    <a ontouchstart="onDragSticker(event,2)" ondragstart="onDragSticker(event,2)"><img
+                    <a onclick="onDragSticker(event,2)" ondragstart="onDragSticker(event,2)"><img
                             src="stickers/sticker2.jpg"></a>
-                    <a ontouchstart="onDragSticker(event,3)" ondragstart="onDragSticker(event,3)"><img
+                    <a onclick="onDragSticker(event,3)" ondragstart="onDragSticker(event,3)"><img
                             src="stickers/sticker3.jpg"></a>
 
                 </div>
                 <div class="edit-memes-container download-share">
                     <a href="#" onclick="downloadCanvas(this)" download="">DOWNLOAD</a>
                     <a href="#" class="share-img" ontouchstart="uploadImg()" onmouseover="uploadImg()">SHARE</a>
-                    <a href="#" class="save-img" ontouchstart="onSaveToStorage()" onclick="onSaveToStorage()">SAVE</a>
+                    <a href="#" class="save-img"  onclick="onSaveToStorage()">SAVE</a>
                 </div>
+                <div onclick="resetCanves()" style="color:yellow;cursor: pointer;font-family: Euro,sarif;text-align: center;margin-bottom: 3px;">
+                    CLEAR</div>
             </div>
         </div>
-
         <div class="canvas-container">
             <canvas id="myCanvas" height="450" width="450" ondragover="event.preventDefault();"
                 ontouchstart="onDropSticker(event)" ondrop="onDropSticker(event)">

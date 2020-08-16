@@ -1,5 +1,4 @@
 'use strict';
-var gKeywords = { 'happy': 12, 'funny puk': 1 }
 const IMG_NUMBER = 18;
 var X;
 var Y = 60;
@@ -10,7 +9,7 @@ var FIXED_NUM = 5;
 var gImgKeywords = [
     ['president', 'men'], ['dogs'], ['dogs','babies'], ['cats'], ['babies'],
     ['men'], ['babies'], ['men'], ['babies'], ['president', 'men'], ['men'], ['men'],
-    ['men'], ['men'], ['men'], ['men'], ['men'], ['men']
+    ['men'], ['men'], ['men'], ['men'], ['president', 'men'], ['men']
 ];
 
 var gImgs = [];
@@ -110,6 +109,7 @@ function getMeme() {
 
 function deleteMemeList() {
     gMeme.lines.pop();
+    console.log(gMeme.lines)
     gMeme.selectedLineIdx--;
 
 
@@ -144,7 +144,6 @@ function filterImages(searchInput) {
         for (var j = 0; j < gImgs[i].keywords.length; j++) {
             if (gImgs[i].keywords[j] === searchInput) {
                 gSortedImgs.push(gImgs[i]);
-                console.log(gSortedImgs)
             }
         }
 

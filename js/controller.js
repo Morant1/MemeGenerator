@@ -11,6 +11,7 @@ var gSavedMemes = [];
 
 
 
+
 function onInit() {
     renderImgs()
 
@@ -45,19 +46,17 @@ function openMemeModal() {
     loadImg();
     resizeCanvas()
 
-
 }
 
 
 function onSaveToStorage() {
     gSavedMemes.push(gCanvas.toDataURL())
-    saveToStorage(KEY, gSavedMemes);
-
+    saveToStorage(KEY, gSavedMemes);    
+     renderSavedMeme()
 }
 
 function loadImg() {
     if (gIsModalOpen) {
-        var meme = getMeme();
         setMemeCoorX(gCanvas.width)
         const img = new Image();
         img.src = `square-imgs/${gCurrId}.jpg`;
@@ -73,11 +72,13 @@ function loadImg() {
 
 function drawText() {
     var meme = getMeme();
-    if (!meme.lines[meme.selectedLineIdx].txt) {
-        var text = document.querySelector('.text-input').value;
-        if (!text) return;
-        setMemeText(text);
-    }
+    // !meme.lines[meme.selectedLineIdx].txt &&
+        if ( !gTouchstart) { 
+            var text = document.querySelector('.text-input').value;
+            console.log("TEXT",text)
+            if (!text) return;
+            setMemeText(text);
+        }
 
     for (var i = 0; i < meme.lines.length; i++) {
         gCtx.lineWidth = '2';
@@ -89,6 +90,7 @@ function drawText() {
         gCtx.strokeText(meme.lines[i].txt, meme.lines[i].x, meme.lines[i].y);
 
     }
+    gTouchstart = false;
 }
 
 
@@ -97,7 +99,6 @@ function drawText() {
 // Sticker
 
 function onDragSticker(ev,num) {
-    if (ev.type === 'touchstart') ev.preventDefault();
     gTouchstart = true;
     gStickerNum = num;
 }
@@ -113,15 +114,29 @@ function onDropSticker(ev) {
             offsetX = ev.offsetX;
             offsetY = ev.offsetY;
         }
+        // 
+        if (!gImgData) {
+        // clearCanvas();
+        var img = new Image();
+        img.src = `square-imgs/${gCurrId}.jpg`;
+        } 
+        // 
         const sticker = new Image();
         sticker.src = `./stickers/sticker${gStickerNum}.jpg`;
         sticker.onload = () => {
             var w = (sticker.width) * 4.5;
             var h = (sticker.height) * 4.5;
+            // 
+            if (!gImgData) {
+            gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);
+            } else {
+                gCtx.putImageData(gImgData, 0, 0);
+            }
+            // 
             gCtx.drawImage(sticker, 0, 0, w, h, offsetX, offsetY, gCanvas.width, gCanvas.height);
             gImgData = gCtx.getImageData(0, 0, w, h, offsetX, offsetY, gCanvas.width, gCanvas.height);
+            drawText()
         }
-        gTouchstart = false;
     }
 
 }
@@ -139,7 +154,6 @@ function onClickDown() {
 }
 
 
-
 function onSwitchLines() {
 
     var meme = getMeme();
@@ -153,7 +167,6 @@ function onSwitchLines() {
     gCtx.strokeStyle = 'yellow';
     gCtx.lineWidth = 3;
     gCtx.stroke();
-    console.log(meme.selectedLineIdx)
     setTimeout(loadImg, 500);
 
 }
@@ -164,12 +177,17 @@ function onSearch() {
     renderImgs();
 }
 function onAddText() {
-    var widthCanvas = gCanvas.width;
-    var heightCanvas = gCanvas.height;
-    setMineLine(widthCanvas, heightCanvas);
-    drawText();
 
+        var widthCanvas = gCanvas.width;
+        var heightCanvas = gCanvas.height;
+        setMineLine(widthCanvas, heightCanvas);
+        
+        drawText();
+        
 }
+
+
+
 
 function onIncreaseFont() {
     setMemeSize();
@@ -211,8 +229,6 @@ function downloadCanvas(elLink) {
 }
 
 
-
-
 function clearCanvas() {
     gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
 }
@@ -228,6 +244,15 @@ function closeModal() {
 
     resetLines();
     document.querySelector('.text-input').value = '';
+
+}
+
+function resetCanves() {
+    clearCanvas()
+    resetLines();
+    document.querySelector('.text-input').value = '';
+    gImgData = null;
+    loadImg()
 
 }
 
@@ -271,12 +296,8 @@ function resizeCanvas() {
     if (gIsModalOpen) {
         const elContainer = document.querySelector('.control-boxes');
 
-
         gCanvas.width = elContainer.offsetWidth + 35;
         gCanvas.height = elContainer.offsetHeight + 40;
-
-
-        console.log(gCanvas.width, gCanvas.height)
     }
 }
 
@@ -291,13 +312,20 @@ function renderSavedMeme() {
     var innerHtmls = '';
     if (savedMemes && savedMemes.length !== 0) {
         for (var i = 0; i < savedMemes.length; i++) {
-            innerHtmls += `<img src="${savedMemes[i]}">`;
+            innerHtmls += '<div style="font-family:Euro;color:white;font-size:1.2rem;">Click on image to delete</div>'
+            innerHtmls += `<img onclick="removeSavedMeme(${i})"class="saved"src="${savedMemes[i]}">`;
         }
         document.querySelector('.saved-memes-flex').innerHTML = innerHtmls;
     } else {
         document.querySelector('.saved-memes-flex').innerHTML = `
         <div style="color:white;">NO SAVED MEMES YET</div>`;
     }
+}
+
+function removeSavedMeme(memeIdx) {
+    gSavedMemes.splice(memeIdx,1);
+    saveToStorage(KEY, gSavedMemes); 
+    renderSavedMeme()
 }
 
 function openModalMemes() {
