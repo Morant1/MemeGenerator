@@ -154,6 +154,7 @@ a {
 .img {
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 
 .img img{
